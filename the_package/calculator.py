@@ -14,7 +14,7 @@ class Calculator:
 
     def addition(self):
         """Returns the sum of the two numbers."""
-        return self.a - self.b  # This is intentional
+        return self.a + self.b  # This is intentional
 
     def subtraction(self):
         """Returns the difference of the two numbers."""
@@ -22,7 +22,7 @@ class Calculator:
 
     def multiply(self):
         """Returns the product of the two numbers."""
-        return self.a / self.b  # This is intentional
+        return self.a * self.b  # This is intentional
 
     def divide(self):
         """Returns the division of the two numbers."""
