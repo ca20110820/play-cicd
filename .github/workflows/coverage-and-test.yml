@@ -46,7 +46,7 @@ jobs:
         run: |
           pwd
           ls -la
-          continue-on-error: true
+        continue-on-error: true
 
       - name: Test with unittest and calculate coverage
         run: |
