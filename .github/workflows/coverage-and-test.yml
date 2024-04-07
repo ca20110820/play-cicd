@@ -2,22 +2,18 @@ name: Coverage and Test
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "**" ]
   pull_request:
-    branches: [ "main" ]
+    branches: [ "main", "develop" ]
+  workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
+  pull-requests: write
 
 jobs:
   coverage-and-test:
-
-    runs-on: ${{ matrix.os }}
-
-    strategy:
-      matrix:
-        os: [ ubuntu-latest, macos-latest, windows-latest ]
-        python-version: [ '3.9', '3.10', '3.11', '3.12' ]
+    runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v4
@@ -25,15 +21,14 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: ${{ matrix.python-version }}
-          architecture: 'x64'
+          python-version: "3.10"
 
       - name: Install dependencies
         run: |
           python -m pip install -U pip
           pip install -e .
           pip install --no-cache-dir flake8 coverage
-#          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
       - name: Lint with flake8
         run: |
@@ -46,9 +41,15 @@ jobs:
         run: |
           pwd
           ls -la
-        continue-on-error: true
 
       - name: Test with unittest and calculate coverage
         run: |
           coverage run -m unittest discover tests
           coverage xml -o coverage.xml
+
+      - name: Create Coverage
+        if: ${{ github.event_name == 'pull_request' }}
+        uses: orgoro/coverage@v3.1
+        with:
+            coverageFile: coverage.xml
+            token: ${{ secrets.GITHUB_TOKEN }}
