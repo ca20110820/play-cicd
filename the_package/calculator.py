@@ -27,3 +27,7 @@ class Calculator:
     def divide(self):
         """Returns the division of the two numbers."""
         return self.a / self.b
+    
+    def modulo(self):
+        """Returns the remainder"""
+        return self.a % self.b

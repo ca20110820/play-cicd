@@ -18,6 +18,10 @@ class TestCalculator(unittest.TestCase):
     def test_divide(self):
         calculator = Calculator(4, 2)
         self.assertEqual(calculator.divide(), 2)
+    
+    def test_modulo(self):
+        calculator = Calculator(4, 2)
+        self.assertEqual(calculator.modulo(), 0)
 
 
 if __name__ == "__main__":
